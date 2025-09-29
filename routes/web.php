@@ -2,27 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\JusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BiodataController;
 
 Route::get('/', function(){
     return view('welcome');
 });
 
-// Passing data lewat URL
-Route::get('/halo/{nama}', [AuthController::class, 'halo']);
-
-// Form login
-Route::get('/login', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login']);
-
-// Dashboard setelah login
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-
-Route::get('/jus/{param1}',[JusController::class, 'show']);
-
-Route::get('/home',[BiodataController::class,'index']);
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::post('/home/signup', [HomeController::class, 'signup'])->name('home.signup');
+Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');

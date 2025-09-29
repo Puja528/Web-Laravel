@@ -8,53 +8,30 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $pageData = [
-            'title' => 'Toko Jus Segar - Home',
-            'about' => [
-                'description' => 'Menyajikan jus segar dan sehat sejak 2010 untuk Anda dan keluarga.',
-                'story' => [
-                    [
-                        'title' => 'Awal Mula',
-                        'content' => 'Kami mulai dari kecintaan akan jus segar dan ingin berbagi manfaatnya.'
-                    ],
-                    [
-                        'title' => 'Bahan Berkualitas',
-                        'content' => 'Hanya menggunakan buah segar dan bahan-bahan dari petani lokal terpercaya.'
-                    ]
-                ],
-                'innovation' => [
-                    'title' => 'Inovasi Rasa',
-                    'content' => 'Menciptakan kombinasi jus yang lezat dan menyegarkan setiap hari.'
-                ],
-                'values' => [
-                    'title' => 'Nilai Kami',
-                    'content' => 'Kami berkomitmen untuk memberikan yang terbaik untuk kesehatan Anda dengan menggunakan bahan-bahan alami tanpa pengawet.'
-                ]
-            ],
-            'juices' => [
-                [
-                    'name' => 'Jus Jeruk Segar',
-                    'description' => 'Dibuat dari jeruk pilihan yang segar dan manis.',
-                    'price' => 15000
-                ],
-                [
-                    'name' => 'Jus Stroberi',
-                    'description' => 'Perpaduan stroberi segar dan yoghurt.',
-                    'price' => 18000
-                ],
-                [
-                    'name' => 'Jus Mangga',
-                    'description' => 'Mangga manis pilihan dengan tekstur yang lembut.',
-                    'price' => 16000
-                ],
-                [
-                    'name' => 'Jus Alpukat',
-                    'description' => 'Alpukat creamy dengan susu dan gula aren.',
-                    'price' => 17000
-                ]
-            ]
-        ];
+        return view('simple-home');
+    }
 
-        return view('halaman-jus-home', $pageData);
+    public function signup(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'name'  => 'required|max:10',
+            'email' => ['required','email'],
+            'password' => [
+                'required',           // wajib diisi
+                'string',             // harus berupa string
+                'min:8',              // minimal 8 karakter
+                'regex:/[a-z]/',      // harus ada huruf kecil
+                'regex:/[A-Z]/',      // harus ada huruf besar
+                'regex:/[0-9]/',      // harus ada angka
+            ],
+        ]);
+
+        // Jika validasi lolos → data diproses
+        $pageData['name']     = $request->name;
+        $pageData['email']    = $request->email;
+        $pageData['password'] = $request->password;
+
+        return view('signup-success', $pageData);
     }
 }

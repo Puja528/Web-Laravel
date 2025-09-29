@@ -6,42 +6,35 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    // Passing Data
-    public function halo($nama){
-        return "Halo, " . ucfirst($nama);
+    // Menampilkan form login
+    public function index()
+    {
+        return view('login-form');
     }
 
-    // Tampilkan form login
-    public function showLogin(){
-        return view('login');
-    }
-
-    // Proses login
-    public function login(Request $request){
-        // Validasi input
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6'
+    // Memproses form login
+    public function login(Request $request)
+    {
+        // Validasi input password
+        $request->validate([
+            'username' => 'required',
+            'password' => [
+                'required',
+                'min:3',
+                'regex:/[A-Z]/' // harus ada huruf kapital
+            ],
         ]);
 
-        // Simulasi login sederhana (tanpa database)
-        if($request->email === "admin@mail.com" && $request->password === "123456"){
-            // Simpan session manual
-            $request->session()->put('user', $request->email);
-            return redirect()->route('dashboard');
-        }
+        $username = $request->username;
+        $password = $request->password;
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah!',
-        ]);
-    }
+        // Ganti dengan NIM kamu
+        $nim = "123456789";
 
-    // Dashboard
-    public function dashboard(Request $request){
-        $user = $request->session()->get('user');
-        if(!$user){
-            return redirect('/login');
+        if ($username === $nim && $password === $nim) {
+            return back()->with('success', 'Login berhasil!');
+        } else {
+            return back()->with('error', 'Username atau Password salah!');
         }
-        return view('dashboard', compact('user'));
     }
 }
