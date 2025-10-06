@@ -69,15 +69,47 @@
                     <p>Please login to your account</p>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('auth.login') }}" method="POST">
+
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if(isset($success))
+                        <div class="alert alert-success">{{ $success }}</div>
+                    @endif
+
+                    @if(isset($error))
+                        <div class="alert alert-danger">{{ $error }}</div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-warning">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <!-- Form Login -->
+                    <form method="POST" action="{{ route('auth.login') }}">
                         @csrf
                         <div class="mb-4">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                            <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username">
                         </div>
                         <div class="mb-4">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password">
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
@@ -85,7 +117,7 @@
                     </form>
                 </div>
                 <div class="card-footer">
-                    <p class="small-text">Don't have an account? <a href="#">Sign up</a></p>
+                    <p class="small-text">Don't have an account? <a href="{{ route('register.show') }}">Sign up</a></p>
                 </div>
             </div>
         </div>

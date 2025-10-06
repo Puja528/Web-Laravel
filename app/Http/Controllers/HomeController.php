@@ -34,4 +34,20 @@ class HomeController extends Controller
 
         return view('signup-success', $pageData);
     }
+
+    public function redirectTo($tujuan)
+    {
+        if ($tujuan === 'login') {
+            // Redirect ke halaman Auth (misal: /login)
+            return redirect('/auth');
+        }
+        elseif ($tujuan === 'belanja') {
+            // Redirect ke halaman e-commerce (misal: link eksternal)
+            return redirect('https://www.tokopedia.com/');
+        }
+        else {
+            // Jika parameter tidak dikenali, kembalikan ke halaman utama
+            return redirect('/');
+        }
+    }
 }
