@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PelangganController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -24,3 +25,5 @@ Route::post('/auth/register', [AuthController::class, 'register'])->name('regist
 Route::get('/redirect/{tujuan}', [HomeController::class, 'redirectTo']);
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('pelanggan', [PelangganController::class, 'index'])->name('pelanggan.list');
+Route::get('pelanggan', [PelangganController::class, 'create'])->name('pelanggan.create');
